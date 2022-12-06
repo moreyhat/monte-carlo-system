@@ -1,6 +1,5 @@
-use std::io;
-
 use rand::Rng;
+use std::io;
 
 enum BaccaratResult {
     Win,
@@ -10,7 +9,7 @@ enum BaccaratResult {
 
 struct MonteCarlo {
     seq: Vec<i32>,
-    is_next_bet: bool
+    is_next_bet: bool,
 }
 
 impl MonteCarlo {
@@ -19,9 +18,10 @@ impl MonteCarlo {
         self.seq.pop();
         self.is_next_bet = self.seq.len() > 1;
     }
-    
+
     fn lose(&mut self) {
-        self.seq.push(self.seq.first().unwrap() + self.seq.last().unwrap());
+        self.seq
+            .push(self.seq.first().unwrap() + self.seq.last().unwrap());
         self.is_next_bet = self.seq.len() > 1;
     }
 
@@ -61,9 +61,9 @@ fn main() -> io::Result<()> {
     let mut draw = 0;
 
     for _ in 0..num_of_play {
-        let seq = vec![1,2,3];
+        let seq = vec![1, 2, 3];
         let is_next_bet = seq.len() > 1;
-        let mut monte_carlo = MonteCarlo{
+        let mut monte_carlo = MonteCarlo {
             seq: seq,
             is_next_bet: is_next_bet,
         };
@@ -80,15 +80,15 @@ fn main() -> io::Result<()> {
                     monte_carlo.win();
                     total += next_bet * 2;
                     win += 1;
-                },
+                }
                 BaccaratResult::Lose => {
                     monte_carlo.lose();
                     lose += 1;
-                },
+                }
                 BaccaratResult::Draw => {
                     total += next_bet;
                     draw += 1;
-                },
+                }
             }
         }
     }
